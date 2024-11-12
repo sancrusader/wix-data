@@ -1,23 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const API_KEY = 'AIzaSyB24BVebnlHWYaU-jAUrLa15ow8uDJ17B0';  // Ganti dengan API Key kamu
+const SPREADSHEET_ID = '16f6FJ-53dwaWp8h25nS6fo36gs4SUaO6A4Oj0V4zzu4';  // Ganti dengan ID Google Sheets kamu
+const SHEET_NAME = 'FormulirAssesment';  // Ganti dengan nama sheet yang sesuai
+
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
 
-    // Validate the data
+    // Validasi data
     if (!data || typeof data !== 'object') {
       return NextResponse.json({ error: 'Invalid data format' }, { status: 400 });
     }
 
-    // Log the received data
+    // Log data yang diterima
     console.log('Received Wix form data:', data);
 
-    // Process the data here (e.g., save to database, send email, etc.)
-    // For now, we'll just echo it back
+    // Siapkan data yang akan disimpan ke Google Sheets
+    const row = [
+      data.namaLokasi,
+      data.cordinate,
+      // Tambahkan data lain sesuai kebutuhan
+    ];
 
-    // Send a response back
+    // Kirim data ke Google Sheets
+    const response = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}!A1:append?valueInputOption=RAW&key=${API_KEY}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          values: [row], // Data yang akan ditambahkan
+        }),
+      }
+    );
+
+    // Periksa jika ada kesalahan dalam mengirim data
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Error:', errorData);
+      return NextResponse.json({ error: 'Failed to add data to Google Sheets' }, { status: 500 });
+    }
+
+    // Jika berhasil, kirimkan respon sukses
     return NextResponse.json(
-      { message: 'Form data received successfully', data },
+      { message: 'Form data received and added to Google Sheets', data },
       {
         status: 200,
         headers: {
