@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const data = await req.json();
+    const data = await request.json();
 
     // Validate the data
     if (!data || typeof data !== 'object') {
@@ -33,9 +33,8 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function OPTIONS(req: NextRequest) {
-  // Handle CORS preflight request
-  return new NextResponse(null, {
+export async function OPTIONS(request: NextRequest) {
+  return NextResponse.json({}, {
     status: 200,
     headers: {
       'Access-Control-Allow-Origin': '*', // Adjust this to your Wix domain in production
@@ -45,7 +44,6 @@ export async function OPTIONS(req: NextRequest) {
   });
 }
 
-export async function GET(req: NextRequest) {
-  // Handle unsupported GET method
+export async function GET(request: NextRequest) {
   return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
 }
