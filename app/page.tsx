@@ -14,12 +14,23 @@ export default function Component() {
   };
 
   useEffect(() => {
+    // Ambil data dari localStorage Wix
+    const fetchCoordinates = () => {
+      const storedCoordinates = localStorage.getItem('userCoordinates'); // Mengambil dari localStorage
+      if (storedCoordinates) {
+        setCordinate(storedCoordinates); // Mengupdate state dengan koordinat
+      }
+    };
+
+    fetchCoordinates();
+
     const handleMessage = (event: MessageEvent) => {
       // Memeriksa asal pesan untuk keamanan
       if (event.origin === 'https://kun.or.id') { // Ganti dengan URL situs Wix Anda
         const { coordinates } = event.data; // Mengambil data koordinat dari pesan
         if (coordinates) {
           setCordinate(coordinates); // Mengupdate state dengan koordinat
+          localStorage.setItem('userCoordinates', coordinates); // Simpan ke localStorage
         }
       }
     };
@@ -30,9 +41,9 @@ export default function Component() {
     // Cleanup listener on component unmount
     return () => {
       // Menghapus listener saat komponen di-unmount
-      window.removeEventListener('message', handleMessage); // Pastikan tidak ada spasi di "message"
+      window.removeEventListener('message', handleMessage);
     };
-}, []);
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
@@ -45,7 +56,7 @@ export default function Component() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="cordinate" className="text-sm font-medium text-gray-700">
-                Cordinate
+                Koordinat
               </label>
               <Input
                 type="text"
@@ -57,19 +68,9 @@ export default function Component() {
                 placeholder="Masukkan Koordinat"
               />
             </div>
-            <Button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-300"
-            >
-              Subscribe
-            </Button>
+            <Button type="submit" className="w-full">Kirim</Button>
           </form>
         </CardContent>
-        <CardFooter>
-          <p className="text-xs text-gray-500 text-center w-full">
-            By subscribing, you agree to our terms and privacy policy.
-          </p>
-        </CardFooter>
       </Card>
     </div>
   );
