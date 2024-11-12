@@ -1,6 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
+export async function handler(request: NextRequest) {
+  switch (request.method) {
+    case 'POST':
+      return await handlePost(request);
+    case 'OPTIONS':
+      return handleOptions(request);
+    case 'GET':
+      return handleGet(request);
+    default:
+      return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
+  }
+}
+
+async function handlePost(request: NextRequest) {
   try {
     const data = await request.json();
 
@@ -33,7 +46,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function OPTIONS(request: NextRequest) {
+function handleOptions(request: NextRequest) {
   return NextResponse.json({}, {
     status: 200,
     headers: {
@@ -44,6 +57,6 @@ export async function OPTIONS(request: NextRequest) {
   });
 }
 
-export async function GET(request: NextRequest) {
+function handleGet(request: NextRequest) {
   return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
 }
