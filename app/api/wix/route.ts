@@ -35,19 +35,17 @@ export async function POST(req: NextRequest) {
 
 export async function OPTIONS(req: NextRequest) {
   // Handle CORS preflight request
-  return NextResponse.json(
-    {},
-    {
-      headers: {
-        'Access-Control-Allow-Origin': '*', // Adjust this to your Wix domain in production
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    }
-  );
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*', // Adjust this to your Wix domain in production
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   // Handle unsupported GET method
   return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
 }
