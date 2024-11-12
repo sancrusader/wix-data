@@ -1,19 +1,17 @@
-// pages/api/wixData.ts
+// app/api/wixData/route.ts
 
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    // Extract data from the request body
-    const data = req.body;
+export async function POST(req: NextRequest) {
+  const data = await req.json(); // Extract JSON data from the request body
 
-    console.log(data);
+  console.log(data);
 
-    // Send a response back
-    res.status(200).json({ message: 'Data received', data });
-  } else {
-    // Handle unsupported request methods
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
+  // Send a response back
+  return NextResponse.json({ message: 'Data received', data });
+}
+
+export async function GET() {
+  // Handle unsupported GET method
+  return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
 }
