@@ -22,6 +22,7 @@ interface Location {
   volunteer: string;
   phone: string;
   date: string;
+  adaTidakKasusKesehatan: string
   rumahRusakBerat: number;
   rumahRusakSedang: number;
   rumahRusakRingan: number;
@@ -73,6 +74,7 @@ interface Location {
   fotoDapurDepan: string;
   fotoDapurSamping: string;
   fotoDapurBelakang: string;
+  deskripsKesehatanMental: string
   fotoAir: string;
   jenisSumberAir: string;
   jarakSumberAir: string;
@@ -414,12 +416,12 @@ export default function DisasterHealthDashboard() {
 
   const totalRumahRusak = locations.reduce((sum, loc) =>
     sum + loc.rumahRusakBerat + loc.rumahRusakSedang + loc.rumahRusakRingan, 0)
-  const totalPendudukTerdampak = locations.reduce((sum, loc) => sum + loc.jumlahJiwa, 0)
-  const totalKasusKesehatan = locations.reduce((sum, loc) =>
-    sum + loc.penyakitKronis + loc.jumlahKematian + loc.jumlahLukaLuka, 0)
+  // const totalPendudukTerdampak = locations.reduce((sum, loc) => sum + loc.jumlahJiwa, 0)
+  // const totalKasusKesehatan = locations.reduce((sum, loc) =>
+  //   sum + loc.penyakitKronis + loc.jumlahKematian + loc.jumlahLukaLuka, 0)
 
   // Menghitung total kematian
-  const totalKematian = locations.reduce((sum,loc) => sum + loc.jumlahKematian, 0)
+  // const totalKematian = locations.reduce((sum,loc) => sum + loc.jumlahKematian, 0)
 
   const kerusakanData = [
     { name: 'Rumah', value: totalRumahRusak },
@@ -939,10 +941,55 @@ export default function DisasterHealthDashboard() {
                               <TableCell>{selectedLocation.biayaPelayanan}</TableCell>
                             </TableRow>
                             <TableRow>
-                              <TableCell className="font-medium">Biaya Pelayanan</TableCell>
+                              <TableCell className="font-medium">Deskripsi</TableCell>
                               <TableCell>{selectedLocation.deskripsiKesehatan}</TableCell>
                             </TableRow>
-                            
+                            <TableRow>
+                              <TableCell className="font-medium"><Badge>Penyakit</Badge></TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Jenis Penyakit Terbanyak</TableCell>
+                              <TableCell>{selectedLocation.jenisPenyakitTerbanyak}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Penyakit Menular</TableCell>
+                              <TableCell>{selectedLocation.penyakitMenular}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Korban Meninggal</TableCell>
+                              <TableCell>{selectedLocation.korbanMeninggal}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Penyebab Meninggal</TableCell>
+                              <TableCell>{selectedLocation.penyebabMeninggal}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Deskripsi</TableCell>
+                              <TableCell>{selectedLocation.deskripsiPenyakit}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium"><Badge>Penyuluhan Kesehatan</Badge></TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Ada/Tidak</TableCell>
+                              <TableCell>{selectedLocation.adaTidakPenyuluhanKesehatan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Materi</TableCell>
+                              <TableCell>{selectedLocation.materiPenyuluhan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Pelaksana</TableCell>
+                              <TableCell>{selectedLocation.pelaksanaPenyuluhan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Frekuensi</TableCell>
+                              <TableCell>{selectedLocation.frekuensiPenyuluhan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Deskripsi</TableCell>
+                              <TableCell>{selectedLocation.deskripsiPenyuluhan}</TableCell>
+                            </TableRow>
                           </TableBody>
                         </Table>
                       </ScrollArea>
@@ -952,7 +999,7 @@ export default function DisasterHealthDashboard() {
                         <Table>
                           <TableHeader>
                             <TableRow>
-                              <TableHead>Kesehatan</TableHead>
+                              <TableHead>Kesehatan Mental</TableHead>
                               <TableHead>Keterangan</TableHead>
                             </TableRow>
                           </TableHeader>
@@ -977,12 +1024,118 @@ export default function DisasterHealthDashboard() {
                               <TableCell className="font-medium">Deskripsi</TableCell>
                               <TableCell>{selectedLocation.deskripsiPoskoKonseling}</TableCell>
                             </TableRow>
-                            
+                            <TableRow>
+                              <TableCell className="font-medium"><Badge>Kasus Kesehatan Mental</Badge></TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Ada/tidak</TableCell>
+                              <TableCell>{selectedLocation.adaTidakKasusKesehatan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Penanganan</TableCell>
+                              <TableCell>{selectedLocation.penangananKesehatanMental}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Deskripsi</TableCell>
+                              <TableCell>{selectedLocation.deskripsKesehatanMental}</TableCell>
+                            </TableRow>
                           </TableBody>
                         </Table>
                       </ScrollArea>
                     </TabsContent>
-                    <TabsContent value="kesehatanPsiko">
+                    <TabsContent value="child">
+                      <ScrollArea className="h-[300px]">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Anak tanpa pendamping/yang terpisah dari keluarga</TableHead>
+                              <TableHead>Keterangan</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell className="font-medium">Ada/tidak</TableCell>
+                              <TableCell>{selectedLocation.adaTidakPoskoLayananOrangHilang}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Tersedia / Tidak</TableCell>
+                              <TableCell>{selectedLocation.tersediaTidakKesehatan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Jumlah Tenaga Kesehatan</TableCell>
+                              <TableCell>{selectedLocation.jumlahTenagaKesehatan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Asal Tenaga Kesehatan</TableCell>
+                              <TableCell>{selectedLocation.asalTenagaKesehatan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Nama Tenaga Kesehatan</TableCell>
+                              <TableCell>{selectedLocation.namaTenagaKesehatan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Asal Obat</TableCell>
+                              <TableCell>{selectedLocation.asalObat}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Biaya Pelayanan</TableCell>
+                              <TableCell>{selectedLocation.biayaPelayanan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Deskripsi</TableCell>
+                              <TableCell>{selectedLocation.deskripsiKesehatan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium"><Badge>Penyakit</Badge></TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Jenis Penyakit Terbanyak</TableCell>
+                              <TableCell>{selectedLocation.jenisPenyakitTerbanyak}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Penyakit Menular</TableCell>
+                              <TableCell>{selectedLocation.penyakitMenular}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Korban Meninggal</TableCell>
+                              <TableCell>{selectedLocation.korbanMeninggal}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Penyebab Meninggal</TableCell>
+                              <TableCell>{selectedLocation.penyebabMeninggal}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Deskripsi</TableCell>
+                              <TableCell>{selectedLocation.deskripsiPenyakit}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium"><Badge>Penyuluhan Kesehatan</Badge></TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Ada/Tidak</TableCell>
+                              <TableCell>{selectedLocation.adaTidakPenyuluhanKesehatan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Materi</TableCell>
+                              <TableCell>{selectedLocation.materiPenyuluhan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Pelaksana</TableCell>
+                              <TableCell>{selectedLocation.pelaksanaPenyuluhan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Frekuensi</TableCell>
+                              <TableCell>{selectedLocation.frekuensiPenyuluhan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Deskripsi</TableCell>
+                              <TableCell>{selectedLocation.deskripsiPenyuluhan}</TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </ScrollArea>
+                    </TabsContent>
+                    <TabsContent value="Hazard">
                       <ScrollArea className="h-[300px]">
                         <Table>
                           <TableHeader>
