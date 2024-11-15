@@ -374,7 +374,7 @@ export default function DisasterHealthDashboard() {
 
 
     const script = document.createElement('script')
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDE91NcMJV-41M7jDExssNNAXJN5I7LnnE
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCtOYqK3_rXI-XOPixdiBEpNJE96Manrs4
     &libraries=places`
     script.async = true
     script.defer = true
