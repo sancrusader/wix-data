@@ -156,7 +156,8 @@ export default function DisasterHealthDashboard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${process.env.NEXT_PUBLIC_SPREADS_SHEETS_ID}/values/Data%20Assessment!A2:EN?key=${process.env.NEXT_PUBLIC_SPREADS_SHEETS_KEY}`)
+      const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/16f6FJ-53dwaWp8h25nS6fo36gs4SUaO6A4Oj0V4zzu4/values/Data%20Assessment!A2:EN?key=AIzaSyDE91NcMJV-41M7jDExssNNAXJN5I7LnnE
+      `)
       const data = await response.json()
       const rows = data.values
 
@@ -373,7 +374,8 @@ export default function DisasterHealthDashboard() {
 
 
     const script = document.createElement('script')
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_MAPS_API_KEYS}&libraries=places`
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDE91NcMJV-41M7jDExssNNAXJN5I7LnnE
+    &libraries=places`
     script.async = true
     script.defer = true
     script.onload = loadMap
