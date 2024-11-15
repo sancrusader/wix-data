@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
             data.sekolahRusakSedang || '',
             data.sekolahRusakRingan || '',
             data.FasilitasUmumLainnyaRusakBerat || '',
-
+            
         ];
 
         const range = `${SHEET_NAME}!A${rows.length + 1}:Z${rows.length + 1}`;
