@@ -96,7 +96,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ mapRef, locations, setSelec
         mapInstance.current = null;
       }
     };
-  }, [locations, mapRef, createInfoWindowContent]);
+  }, [locations, mapRef, createInfoWindowContent, setSelectedLocation]);
 
   return null;
 };

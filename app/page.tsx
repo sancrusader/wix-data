@@ -201,41 +201,41 @@ export default function DisasterHealthDashboard() {
     (Number(loc.fasumSedang) || 0 ) +
     (Number(loc.fasumRingan) || 0 ), 0);
   // Menghitung total kematian
-  const totalJumlahJiwa = locations.reduce((sum, loc) => 
-    sum + 
-    (Number(loc.jumlahJiwa) || 0), 0)
+  // const totalJumlahJiwa = locations.reduce((sum, loc) => 
+  //   sum + 
+  //   (Number(loc.jumlahJiwa) || 0), 0)
   const totalKematian = locations.reduce((sum, loc) => 
     sum + (Number(loc.jumlahKematian) || 0), 0);
   
 
-  const kerusakanData = [
-    { name: 'Rumah', value: totalRumahRusak },
-    { name: 'Sekolah', value: locations.reduce((sum, loc) =>
-      sum + loc.sekolahRusakBerat + loc.sekolahRusakSedang + loc.sekolahRusakRingan, 0) },
-    { name: 'Fasilitas Kesehatan', value: locations.reduce((sum, loc) =>
-      sum + loc.faskesBerat + loc.faskesSedang + loc.faskesRingan, 0) },
-    { name: 'Fasilitas Umum', value: locations.reduce((sum, loc) =>
-      sum + loc.fasumBerat + loc.fasumSedang + loc.fasumRingan, 0) },
+  // const kerusakanData = [
+  //   { name: 'Rumah', value: totalRumahRusak },
+  //   { name: 'Sekolah', value: locations.reduce((sum, loc) =>
+  //     sum + loc.sekolahRusakBerat + loc.sekolahRusakSedang + loc.sekolahRusakRingan, 0) },
+  //   { name: 'Fasilitas Kesehatan', value: locations.reduce((sum, loc) =>
+  //     sum + loc.faskesBerat + loc.faskesSedang + loc.faskesRingan, 0) },
+  //   { name: 'Fasilitas Umum', value: locations.reduce((sum, loc) =>
+  //     sum + loc.fasumBerat + loc.fasumSedang + loc.fasumRingan, 0) },
     
-  ]
+  // ]
 
-  const demografiData = [
-    { name: 'Pria', value: locations.reduce((sum, loc) => sum + loc.jumlahPria, 0) },
-    { name: 'Wanita', value: locations.reduce((sum, loc) => sum + loc.jumlahWanita, 0) },
-    { name: 'Bayi', value: locations.reduce((sum, loc) => sum + loc.bayi, 0) },
-    { name: 'Balita', value: locations.reduce((sum, loc) => sum + loc.balita, 0) },
-    { name: 'Ibu Hamil', value: locations.reduce((sum, loc) => sum + loc.ibuHamil, 0) },
-    { name: 'Lansia', value: locations.reduce((sum, loc) => sum + loc.lansia, 0) },
-  ]
+  // const demografiData = [
+  //   { name: 'Pria', value: locations.reduce((sum, loc) => sum + loc.jumlahPria, 0) },
+  //   { name: 'Wanita', value: locations.reduce((sum, loc) => sum + loc.jumlahWanita, 0) },
+  //   { name: 'Bayi', value: locations.reduce((sum, loc) => sum + loc.bayi, 0) },
+  //   { name: 'Balita', value: locations.reduce((sum, loc) => sum + loc.balita, 0) },
+  //   { name: 'Ibu Hamil', value: locations.reduce((sum, loc) => sum + loc.ibuHamil, 0) },
+  //   { name: 'Lansia', value: locations.reduce((sum, loc) => sum + loc.lansia, 0) },
+  // ]
 
-  const kesehatanData = [
-    { name: 'Penyakit Kronis', value: locations.reduce((sum, loc) => sum + loc.penyakitKronis, 0) },
-    { name: 'Kematian', value: locations.reduce((sum, loc) => sum + loc.jumlahKematian, 0) },
-    { name: 'Luka-luka', value: locations.reduce((sum, loc) => sum + loc.jumlahLukaLuka, 0) },
-    { name: 'Orang Hilang', value: locations.reduce((sum, loc) => sum + loc.jumlahOrangHilang, 0) },
-  ]
+  // const kesehatanData = [
+  //   { name: 'Penyakit Kronis', value: locations.reduce((sum, loc) => sum + loc.penyakitKronis, 0) },
+  //   { name: 'Kematian', value: locations.reduce((sum, loc) => sum + loc.jumlahKematian, 0) },
+  //   { name: 'Luka-luka', value: locations.reduce((sum, loc) => sum + loc.jumlahLukaLuka, 0) },
+  //   { name: 'Orang Hilang', value: locations.reduce((sum, loc) => sum + loc.jumlahOrangHilang, 0) },
+  // ]
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d']
+  // const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d']
 
 
 
