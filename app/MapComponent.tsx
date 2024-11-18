@@ -30,23 +30,23 @@ const MapComponent: React.FC<MapComponentProps> = ({ mapRef, locations, setSelec
     `;
   }, []);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && mapRef.current) {
-      if (!mapInstance.current) {
-        mapInstance.current = L.map(mapRef.current, {
-          dragging: true,
-          scrollWheelZoom: true,
-          maxBounds: [[-11.0, 120.0], [-8.0, 126.0]],
-          minZoom: 11,
-        }).setView([-8.182946, 123.037949], 12);
+  const initializeMap = useCallback(() => {
+    if (mapRef.current && !mapInstance.current) {
+      mapInstance.current = L.map(mapRef.current, {
+        dragging: true,
+        scrollWheelZoom: true,
+        maxBounds: [[-11.0, 120.0], [-8.0, 126.0]],
+        minZoom: 11,
+      }).setView([-8.182946, 123.037949], 12);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© Open Street Maps'
-        }).addTo(mapInstance.current);
-      } else {
-        mapInstance.current.invalidateSize();
-      }
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© Open Street Maps'
+      }).addTo(mapInstance.current);
+    }
+  }, [mapRef]);
 
+  const updateMarkers = useCallback(() => {
+    if (mapInstance.current) {
       // Clear existing markers
       markersRef.current.forEach(marker => marker.remove());
       markersRef.current = [];
@@ -74,13 +74,12 @@ const MapComponent: React.FC<MapComponentProps> = ({ mapRef, locations, setSelec
           marker.bindPopup(popup);
 
           marker.on('click', () => {
-            setSelectedLocation(location); // Simpan lokasi yang dipilih di state lokal
-            marker.openPopup(); // Buka popup
+            setSelectedLocation(location);
+            marker.openPopup();
           });
           markersRef.current.push(marker);
           return marker;
         }
-
         return null;
       }).filter((marker): marker is L.Marker => marker !== null);
 
@@ -89,14 +88,19 @@ const MapComponent: React.FC<MapComponentProps> = ({ mapRef, locations, setSelec
         mapInstance.current.fitBounds(group.getBounds());
       }
     }
+  }, [locations, createInfoWindowContent, setSelectedLocation]);
+
+  useEffect(() => {
+    initializeMap();
+    updateMarkers();
 
     return () => {
       if (mapInstance.current) {
-        mapInstance.current.remove();
-        mapInstance.current = null;
+        mapInstance.current.remove(); // Clean up the map instance
+        mapInstance.current = null;   // Reset the map instance reference
       }
     };
-  }, [locations, mapRef, createInfoWindowContent, setSelectedLocation]);
+  }, [initializeMap, updateMarkers]);
 
   return null;
 };

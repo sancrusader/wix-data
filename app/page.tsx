@@ -174,7 +174,8 @@ export default function DisasterHealthDashboard() {
         rencanaEvakuasi: row[122],                  // Indeks diperbaiki ke 122
         deskripsiEWS: row[123],                     // Indeks diperbaiki ke 123
         fotoEWS: row[124],                          // Indeks diperbaiki ke 124
-        videoEWS: row[125]                          // Indeks diperbaiki ke 125        
+        videoEWS: row[125],    
+        kebutuhanMendesak: row[126],                      // Indeks diperbaiki ke 125        
 
       }))
 
@@ -281,7 +282,7 @@ export default function DisasterHealthDashboard() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <Card className="lg:col-span-2">
-          <CardHeader className="bg-primary text-primary-foreground shadow-lg rounded-lg mb-4">
+          <CardHeader className=" text-primary-foreground shadow-lg rounded-lg mb-4">
             <CardTitle>Peta Lokasi</CardTitle>
           </CardHeader>
           <CardContent>
@@ -1012,6 +1013,56 @@ export default function DisasterHealthDashboard() {
                               <TableCell className="font-medium">Deskripsi</TableCell>
                               <TableCell>{selectedLocation.deskripsiPenyuluhan}</TableCell>
                             </TableRow>
+                          </TableBody>
+                        </Table>
+                      </ScrollArea>
+                    </TabsContent>
+                    <TabsContent value="Early">
+                      <ScrollArea className="h-[300px]">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Kesehatan</TableHead>
+                              <TableHead>Keterangan</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell className="font-medium">Peringatan Dini</TableCell>
+                              <TableCell>{selectedLocation.peringatanDini}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Tersedia/tidak</TableCell>
+                              <TableCell>{selectedLocation.tersediaTidakEarly}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Sumber Informasi</TableCell>
+                              <TableCell>{selectedLocation.sumberInformasi}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Penyampai Informasi</TableCell>
+                              <TableCell>{selectedLocation.penyampaiInformasi}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Rencana Evakuasi</TableCell>
+                              <TableCell>{selectedLocation.rencanaEvakuasi}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Deskripsi</TableCell>
+                              <TableCell>{selectedLocation.deskripsiEWS}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Video</TableCell>
+                              <TableCell>{selectedLocation.videoEWS}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Foto</TableCell>
+                              <TableCell>{selectedLocation.fotoEWS}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell className="font-medium">Kebutuhan Mendesak</TableCell>
+                              <TableCell>{selectedLocation.kebutuhanMendesak}</TableCell>
+                            </TableRow> 
                           </TableBody>
                         </Table>
                       </ScrollArea>

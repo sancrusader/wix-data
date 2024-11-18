@@ -5,6 +5,8 @@ export interface Location {
     volunteer: string;
     phone: string;
     date: string;
+    kebutuhanMendesak: string,
+    tersediaTidakEarly: string
     adaTidakKasusKesehatan: string
     rumahRusakBerat: number;
     rumahRusakSedang: number;
