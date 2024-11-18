@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -9,147 +8,19 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { AlertTriangle, Home, Users, Activity, MapPin, Phone, Calendar, Search } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { Badge } from '@/components/ui/badge'
 import KunIcon from '@/components/icon'
-
-interface Location {
-  name: string;
-  lat: number;
-  lng: number;
-  volunteer: string;
-  phone: string;
-  date: string;
-  adaTidakKasusKesehatan: string
-  rumahRusakBerat: number;
-  rumahRusakSedang: number;
-  rumahRusakRingan: number;
-  sekolahRusakBerat: number;
-  sekolahRusakSedang: number;
-  sekolahRusakRingan: number;
-  faskesBerat: number;
-  faskesSedang: number;
-  faskesRingan: number;
-  fasumBerat: number;
-  fasumSedang: number;
-  fasumRingan: number;
-  jumlahKK: number;
-  jumlahJiwa: number;
-  jumlahPria: number;
-  jumlahWanita: number;
-  bayi: number;
-  balita: number;
-  ibuHamil: number;
-  lansia: number;
-  kkIslam: number;
-  kkKristen: number;
-  kkAgamaLain: number;
-  anakTanpaPendamping: number;
-  lansiaTanpaPendamping: number;
-  penyakitKronis: number;
-  kepalaKeluargaPerempuan: number;
-  disabilitas: number;
-  mental: number;
-  fisik: number;
-  jumlahKematian: number;
-  jumlahLukaLuka: number;
-  jumlahOrangHilang: number;
-  bentukShelter: string;
-  luasShelter: string;
-  bahanAtap: string;
-  bahanAlas: string;
-  privacyArea: string;
-  peralatanTidur: string;
-  deskripsiShelter: string;
-  fotoTampakDepanShelter: string;
-  fotoTampakSampingShelter: string;
-  fotoTampakBelakangShelter: string;
-  jenisDapur: string;
-  lokasiDapur: string;
-  peralatanDapur: string;
-  bahanBakar: string;
-  deskripsiDapur: string;
-  fotoDapurDepan: string;
-  fotoDapurSamping: string;
-  fotoDapurBelakang: string;
-  deskripsKesehatanMental: string
-  fotoAir: string;
-  jenisSumberAir: string;
-  jarakSumberAir: string;
-  volumeAir: string;
-  jumlahKeran: string;
-  deskripsiKelayakanAir: string;
-  jarakKeShelter: string;
-  jumlahWC: string;
-  jumlahWCBerfungsi: string;
-  pemisahanGenderWC: string;
-  jumlahWCPria: string;
-  jumlahWCWanita: string;
-  deskripsiWC: string;
-  ketersediaanHygieneKit: string;
-  gratisBeli: string;
-  asalHygieneKit: string;
-  pembalutWanita: string;
-  popokBayi: string;
-  deskripsiHygenkit: string;
-  tempatPembuanganSampah: string;
-  pemisahanJenisSampah: string;
-  pengelolaanSampah: string;
-  penyuluhanKebersihan: string;
-  deskripsiSampah: string;
-  adaTidakPenyuluh: string;
-  siapaPenyuluh: string;
-  fotoPenyuluh:string;
-  tersediaPosko: string;
-  tersediaTidakKesehatan: string;
-  jumlahTenagaKesehatan: string;
-  asalTenagaKesehatan: string;
-  namaTenagaKesehatan: string;
-  asalObat: string;
-  biayaPelayanan: string;
-  deskripsiKesehatan: string;
-  jenisPenyakitTerbanyak: string;
-  penyakitMenular: string;
-  korbanMeninggal: string;
-  penyebabMeninggal: string;
-  deskripsiPenyakit: string;
-  adaTidakPenyuluhanKesehatan: string;
-  materiPenyuluhan: string;
-  pelaksanaPenyuluhan: string;
-  frekuensiPenyuluhan: string;
-  deskripsiPenyuluhan: string;
-  adaTidakPosko: string;
-  pelaksanaKonseling: string;
-  frekuensiKonseling: string;
-  deskripsiPoskoKonseling: string;
-  penangananKesehatanMental: string;
-  anakTanpaPendampingJumlah: string;
-  adaTidakPoskoLayananOrangHilang: string;
-  pelaksanaLayananOrangHilang: string;
-  deskripsiPoskoLayanan: string;
-  jenisAncaman: string;
-  ancamanAlami: string;
-  bangunanTidakAman: string;
-  ancamanLain: string;
-  peringatanDini: string;
-  sumberInformasi: string;
-  penyampaiInformasi: string;
-  rencanaEvakuasi: string;
-  deskripsiEWS: string;
-  fotoEWS: string;
-  videoEWS: string;
-  fotoTampakDepanWc: string
-  fotoTampakSampingWc: string
-  fotoTampakBelakangWc: string
-  fotoKesehatan: string
-}
-
+import 'leaflet/dist/leaflet.css';
+import { Location } from '@/types/location'
+import L from 'leaflet';
+import DynamicMap from './DynamicMap'; // Adjust the import path as necessary
 
 
 export default function DisasterHealthDashboard() {
-  const mapRef = useRef(null)
+  const mapInstance = useRef<L.Map | null>(null)
   const [locations, setLocations] = useState<Location[]>([])
-  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null)
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+
   const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
@@ -313,106 +184,7 @@ export default function DisasterHealthDashboard() {
     fetchData()
   }, [])
 
-  useEffect(() => {
-    if (locations.length === 0) return
-
-    const loadMap = async () => {
-        if (typeof window !== 'undefined' && window.google && mapRef.current) {
-          const { Map, InfoWindow } = await window.google.maps.importLibrary("maps") as google.maps.MapsLibrary
-          const { AdvancedMarkerElement } = await window.google.maps.importLibrary("marker") as google.maps.MarkerLibrary
-
-          // Tentukan batas wilayah Lewotobi
-          const lewotobiBounds = new window.google.maps.LatLngBounds(
-            { lat: -8.6, lng: 122.65 }, // Titik barat daya Lewotobi
-            { lat: -8.4, lng: 122.8 }   // Titik timur laut Lewotobi (latitude utara lebih besar)
-          );
-
-          const map = new Map(mapRef.current, {
-            center: { lat: -8.2, lng: 122}, // Titik pusat wilayah Lewotobi
-            mapId: "DEMO_MAP_ID",
-            disableDefaultUI: false,
-            zoomControl: true,
-            scrollwheel: true,
-            // draggable: false,
-            minZoom: 11,
-            // maxZoom: 13,
-          })
-
-          // Set bounds agar peta hanya menampilkan area Lewotobi
-          map.fitBounds(lewotobiBounds)
-          map.setOptions({
-            restriction: {
-              latLngBounds: lewotobiBounds, // Membatasi peta hanya di wilayah Lewotobi
-              strictBounds: true, // Mengaktifkan batas ketat agar tidak bisa keluar dari area
-            },
-          })
-
-          const infoWindow = new InfoWindow({
-            content: "",
-            disableAutoPan: true,
-          })
-
-          const markers = locations.map((location, i) => {
-            const marker = new AdvancedMarkerElement({
-              position: { lat: location.lat, lng: location.lng },
-              content: createMarkerContent(i + 1),
-            })
-
-            marker.addListener("click", () => {
-              setSelectedLocation(location)
-              infoWindow.setContent(createInfoWindowContent(location))
-              infoWindow.open(map, marker)
-            })
-            return marker
-          })
-
-          new MarkerClusterer({ markers, map })
-        }
-      }
-
-
-    const script = document.createElement('script')
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCtOYqK3_rXI-XOPixdiBEpNJE96Manrs4
-    &libraries=places`
-    script.async = true
-    script.defer = true
-    script.onload = loadMap
-    document.body.appendChild(script)
-
-    return () => {
-      document.body.removeChild(script)
-    }
-  }, [locations])
-
-  const createMarkerContent = (number: number) => {
-    const div = document.createElement('div')
-    div.className = 'marker'
-    div.textContent = number.toString()
-    div.style.backgroundColor = 'hsl(var(--primary))'
-    div.style.color = 'hsl(var(--primary-foreground))'
-    div.style.width = '30px'
-    div.style.height = '30px'
-    div.style.display = 'flex'
-    div.style.justifyContent = 'center'
-    div.style.alignItems = 'center'
-    div.style.borderRadius = '50%'
-    div.style.fontWeight = 'bold'
-    return div
-  }
-
-  const createInfoWindowContent = (location: Location) => {
-    return `
-      <div class="info-window p-2">
-        <h3 class="text-lg font-bold mb-2">${location.name}</h3>
-        <p>Volunteer: ${location.volunteer}</p>
-        <p>Phone: ${location.phone}</p>
-        <p>Date: ${location.date}</p>
-        <p>Rumah Rusak Berat: ${location.rumahRusakBerat}</p>
-        <p>Rumah Rusak Sedang: ${location.rumahRusakSedang}</p>
-        <p>Rumah Rusak Ringan: ${location.rumahRusakRingan}</p>
-      </div>
-    `
-  }
+  
 
   const totalRumahRusak = locations.reduce((sum, loc) => 
     sum + 
@@ -429,6 +201,9 @@ export default function DisasterHealthDashboard() {
     (Number(loc.fasumSedang) || 0 ) +
     (Number(loc.fasumRingan) || 0 ), 0);
   // Menghitung total kematian
+  const totalJumlahJiwa = locations.reduce((sum, loc) => 
+    sum + 
+    (Number(loc.jumlahJiwa) || 0), 0)
   const totalKematian = locations.reduce((sum, loc) => 
     sum + (Number(loc.jumlahKematian) || 0), 0);
   
@@ -510,8 +285,11 @@ export default function DisasterHealthDashboard() {
             <CardTitle>Peta Lokasi</CardTitle>
           </CardHeader>
           <CardContent>
-            <div ref={mapRef} className="w-full h-[400px] lg:h-[600px] rounded-lg mb-4" />
-             
+               <DynamicMap 
+                  locations={locations} 
+                  setSelectedLocation={setSelectedLocation} 
+                />
+            
               {selectedLocation ? (
                 <div className="space-y-4 mb-4">
                   <div className="flex items-center space-x-2 mb-4">
@@ -1263,12 +1041,17 @@ export default function DisasterHealthDashboard() {
                 />
               </div>
               <ScrollArea className="h-[300px] mt-4">
-                {filteredLocations.map((location) => (
+                {filteredLocations.map((location, index) => (
                   <Button
-                    key={location.name}
+                    key={location.name || index}
                     variant="ghost"
                     className="w-full justify-start"
-                    onClick={() => setSelectedLocation(location)}
+                    onClick={() => {
+                      setSelectedLocation(location);
+                      if (mapInstance.current) {
+                        mapInstance.current.setView([location.lat, location.lng], 12);
+                      }
+                    }}
                   >
                     {location.name}
                   </Button>
