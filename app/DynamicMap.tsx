@@ -6,7 +6,7 @@ import { Location } from '@/types/location'
 
 interface DynamicMapProps {
   locations: Location[];
-  setSelectedLocation: (location: Location) => void;
+  setSelectedLocation: (location: Location | null) => void;
 }
 
 const DynamicMap: React.FC<DynamicMapProps> = ({ locations, setSelectedLocation }) => {
@@ -25,6 +25,7 @@ const DynamicMap: React.FC<DynamicMapProps> = ({ locations, setSelectedLocation 
       <MapComponent 
         mapRef={mapRef}
         locations={locations}
+        selectedLocation={null}
         setSelectedLocation={setSelectedLocation}
       />
       
