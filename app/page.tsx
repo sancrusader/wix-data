@@ -13,8 +13,6 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { Badge } from '@/components/ui/badge'
 import KunIcon from '@/components/icon'
 
-
-
 interface Location {
   name: string;
   lat: number;
@@ -416,14 +414,24 @@ export default function DisasterHealthDashboard() {
     `
   }
 
-  const totalRumahRusak = locations.reduce((sum, loc) =>
-    sum + loc.rumahRusakBerat + loc.rumahRusakSedang + loc.rumahRusakRingan, 0)
-  // const totalPendudukTerdampak = locations.reduce((sum, loc) => sum + loc.jumlahJiwa, 0)
-  // const totalKasusKesehatan = locations.reduce((sum, loc) =>
-  //   sum + loc.penyakitKronis + loc.jumlahKematian + loc.jumlahLukaLuka, 0)
-
+  const totalRumahRusak = locations.reduce((sum, loc) => 
+    sum + 
+    (Number(loc.rumahRusakBerat) || 0) + 
+    (Number(loc.rumahRusakSedang) || 0) + 
+    (Number(loc.rumahRusakRingan) || 0) +
+    (Number(loc.sekolahRusakBerat) || 0) +
+    (Number(loc.sekolahRusakRingan) || 0) +
+    (Number(loc.sekolahRusakSedang) || 0 ) +
+    (Number(loc.faskesBerat) || 0 ) +
+    (Number(loc.faskesRingan) || 0 ) +
+    (Number(loc.faskesSedang) || 0 ) +
+    (Number(loc.fasumBerat) || 0 ) +
+    (Number(loc.fasumSedang) || 0 ) +
+    (Number(loc.fasumRingan) || 0 ), 0);
   // Menghitung total kematian
-  // const totalKematian = locations.reduce((sum,loc) => sum + loc.jumlahKematian, 0)
+  const totalKematian = locations.reduce((sum, loc) => 
+    sum + (Number(loc.jumlahKematian) || 0), 0);
+  
 
   const kerusakanData = [
     { name: 'Rumah', value: totalRumahRusak },
@@ -433,6 +441,7 @@ export default function DisasterHealthDashboard() {
       sum + loc.faskesBerat + loc.faskesSedang + loc.faskesRingan, 0) },
     { name: 'Fasilitas Umum', value: locations.reduce((sum, loc) =>
       sum + loc.fasumBerat + loc.fasumSedang + loc.fasumRingan, 0) },
+    
   ]
 
   const demografiData = [
@@ -473,7 +482,7 @@ export default function DisasterHealthDashboard() {
             <Home className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">15</div>
+            <div className="text-2xl font-bold">{totalRumahRusak}</div>
           </CardContent>
         </Card>
         <Card>
@@ -491,7 +500,7 @@ export default function DisasterHealthDashboard() {
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">2</div>
+            <div className="text-2xl font-bold">{totalKematian}</div>
           </CardContent>
         </Card>
       </div>
@@ -1271,77 +1280,6 @@ export default function DisasterHealthDashboard() {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Kerusakan Bangunan</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={kerusakanData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {kerusakanData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Demografi Penduduk</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={demografiData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {demografiData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Kasus Kesehatan</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={kesehatanData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="value" fill="#8884d8" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
       </div>
     </div>
   )
