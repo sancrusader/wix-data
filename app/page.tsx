@@ -282,7 +282,7 @@ export default function DisasterHealthDashboard() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <Card className="lg:col-span-2">
-          <CardHeader className=" text-primary-foreground shadow-lg rounded-lg mb-4">
+          <CardHeader>
             <CardTitle>Peta Lokasi</CardTitle>
           </CardHeader>
           <CardContent>
