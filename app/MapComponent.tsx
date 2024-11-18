@@ -41,7 +41,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ mapRef, locations, setSelec
         }).setView([-8.182946, 123.037949], 12);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© OPM'
+          attribution: '© Open Street Maps'
         }).addTo(mapInstance.current);
       } else {
         mapInstance.current.invalidateSize();
