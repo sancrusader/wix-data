@@ -112,4 +112,6 @@
     }
   );
 
+  MapComponent.displayName = 'MapComponent';
+
   export default MapComponent;

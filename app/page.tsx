@@ -16,7 +16,7 @@ import L from 'leaflet';
 import DynamicMap from './DynamicMap'; // Adjust the import path as necessary
 
 export default function DisasterHealthDashboard() {
-  const mapRef = useRef(null)
+  const [jumlahData, setJumlahData] = useState(0); 
   const mapInstance = useRef<L.Map | null>(null);
   const [locations, setLocations] = useState<Location[]>([])
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null)
@@ -27,8 +27,10 @@ export default function DisasterHealthDashboard() {
       const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/16f6FJ-53dwaWp8h25nS6fo36gs4SUaO6A4Oj0V4zzu4/values/Data%20Assessment!A2:EN?key=AIzaSyDE91NcMJV-41M7jDExssNNAXJN5I7LnnE
       `)
       const data = await response.json()
-      const rows = data.values
-
+      const rows = data.values;
+      setJumlahData(rows.length);
+       // Menghitung jumlah baris
+      // console.log(`Jumlah data: ${jumlahData}`); 
       const parsedLocations = rows.map((row: string[]) => ({
         name: row[0],
         lat: parseFloat(row[1].split(',')[0]),
@@ -187,20 +189,20 @@ export default function DisasterHealthDashboard() {
   
 
   
-  const totalRumahRusak = locations.reduce((sum, loc) => 
-    sum + 
-    (Number(loc.rumahRusakBerat) || 0) + 
-    (Number(loc.rumahRusakSedang) || 0) + 
-    (Number(loc.rumahRusakRingan) || 0) +
-    (Number(loc.sekolahRusakBerat) || 0) +
-    (Number(loc.sekolahRusakRingan) || 0) +
-    (Number(loc.sekolahRusakSedang) || 0 ) +
-    (Number(loc.faskesBerat) || 0 ) +
-    (Number(loc.faskesRingan) || 0 ) +
-    (Number(loc.faskesSedang) || 0 ) +
-    (Number(loc.fasumBerat) || 0 ) +
-    (Number(loc.fasumSedang) || 0 ) +
-    (Number(loc.fasumRingan) || 0 ), 0);
+  // const totalRumahRusak = locations.reduce((sum, loc) => 
+  //   sum + 
+  //   (Number(loc.rumahRusakBerat) || 0) + 
+  //   (Number(loc.rumahRusakSedang) || 0) + 
+  //   (Number(loc.rumahRusakRingan) || 0) +
+  //   (Number(loc.sekolahRusakBerat) || 0) +
+  //   (Number(loc.sekolahRusakRingan) || 0) +
+  //   (Number(loc.sekolahRusakSedang) || 0 ) +
+  //   (Number(loc.faskesBerat) || 0 ) +
+  //   (Number(loc.faskesRingan) || 0 ) +
+  //   (Number(loc.faskesSedang) || 0 ) +
+  //   (Number(loc.fasumBerat) || 0 ) +
+  //   (Number(loc.fasumSedang) || 0 ) +
+  //   (Number(loc.fasumRingan) || 0 ), 0);
 
     const totalKematian = locations.reduce((sum, loc) => 
     sum + (Number(loc.jumlahKematian) || 0), 0);
@@ -219,16 +221,16 @@ export default function DisasterHealthDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Bangunan Rusak</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Tiktik Pengungsian</CardTitle>
             <Home className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalRumahRusak}</div>
+            <div className="text-2xl font-bold">{jumlahData}</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Penduduk Terdampak</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Penduduk</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
