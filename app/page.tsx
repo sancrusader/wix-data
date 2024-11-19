@@ -16,10 +16,10 @@ import L from 'leaflet';
 import DynamicMap from './DynamicMap'; // Adjust the import path as necessary
 
 export default function DisasterHealthDashboard() {
-  const mapInstance = useRef<L.Map | null>(null)
+  const mapRef = useRef(null)
+  const mapInstance = useRef<L.Map | null>(null);
   const [locations, setLocations] = useState<Location[]>([])
-  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
-
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
@@ -186,7 +186,7 @@ export default function DisasterHealthDashboard() {
 
   
 
-  // Menghitung Kerusakan
+  
   const totalRumahRusak = locations.reduce((sum, loc) => 
     sum + 
     (Number(loc.rumahRusakBerat) || 0) + 
