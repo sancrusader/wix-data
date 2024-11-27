@@ -40,9 +40,6 @@ export default function DisasterHealthDashboard() {
           return url;
         };
 
-
-
-
         return {
           // Nama Lokasi
           name: row[0],
@@ -276,7 +273,7 @@ export default function DisasterHealthDashboard() {
     <KunIcon/>
   </div>
   {/* <ModeToggle/> */}
-    <h1 className="text-5xl text-center font-bold text-primary">Dashboard Bencana</h1>
+    <h1 className="text-5xl text-center font-bold text-primary">Dashboard Kesehatan Pengungsian Erupsi Lewotobi, Flores Timur 2024</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
