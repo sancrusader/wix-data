@@ -6,6 +6,7 @@ export interface Location {
     phone: string;
     date: string;
     jumlahData: number
+    pelaksanaLayanan: string,
     kebutuhanMendesak: string,
     tersediaTidakEarly: string
     adaTidakKasusKesehatan: string
@@ -130,4 +131,18 @@ export interface Location {
     fotoTampakSampingWc: string
     fotoTampakBelakangWc: string
     fotoKesehatan: string;
+    adaTidakAnakTanpaPendamping: string
+    namaLembaga: string
+    namaPetugas: string
+    totalPelayanan: number
+    namaPenyakit1: string,
+    jumlahPenyakit1: number,
+    namaPenyakit2: string
+    jumlahPenyakit2: number
+    namaPenyakit3: string
+    jumlahPenyakit3: number
+    namaPenyakit4: string
+    jumlahPenyakit4:number
+    namaPenyakit5: string
+    jumlahPenyakit5: number;
   }

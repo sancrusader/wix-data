@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+// import { ThemeProvider } from "@/components/ThemeProvider"
 
 const hum521b = localFont({
   src: "./fonts/HUM521N.ttf",
@@ -21,7 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${hum521b.variable} antialiased`}>
-        {children}
+      {/* <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider> */}
+          {children}
       </body>
     </html>
   );
